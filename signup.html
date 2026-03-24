@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up | WebDev Freelance Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="auth-pages.css" />
+  </head>
+  <body data-page="signup">
+    <div class="auth-background auth-glow-one" aria-hidden="true"></div>
+    <div class="auth-background auth-glow-two" aria-hidden="true"></div>
+
+    <header class="auth-topbar">
+      <a href="index.html" class="auth-brand">
+        <span class="brand-dot"></span>
+        <span>
+          <strong>WebDev</strong>
+          <small>Freelance Hub</small>
+        </span>
+      </a>
+      <a href="login.html" class="ghost-link">Already have an account?</a>
+    </header>
+
+    <main class="auth-shell">
+      <section class="auth-copy">
+        <span class="eyebrow">Create your account</span>
+        <h1>Build your real entry point into the platform.</h1>
+        <p>
+          This page is dedicated only to signup. Fill your details, choose your role,
+          and Supabase will send a verification email before your first real login.
+        </p>
+
+        <div class="copy-card">
+          <strong>What happens next</strong>
+          <p>1. Create the account here.</p>
+          <p>2. Go automatically to the login page.</p>
+          <p>3. Verify your email from the Supabase message.</p>
+          <p>4. Log in and continue into the platform.</p>
+        </div>
+      </section>
+
+      <section class="auth-panel">
+        <div class="panel-card">
+          <div class="panel-head">
+            <span class="eyebrow">Signup form</span>
+            <h2>Create account</h2>
+          </div>
+
+          <form id="signupForm" class="auth-form">
+            <label>
+              <span>Full name</span>
+              <input type="text" name="full_name" placeholder="Ahmed Ali" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" placeholder="you@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" placeholder="Minimum 8 characters" required />
+            </label>
+            <label>
+              <span>Role</span>
+              <select name="role" required>
+                <option value="developer">Developer</option>
+                <option value="client">Client</option>
+              </select>
+            </label>
+            <label>
+              <span>Professional title</span>
+              <input type="text" name="title" placeholder="Frontend Engineer" />
+            </label>
+            <label>
+              <span>Location</span>
+              <input type="text" name="location" placeholder="Cairo, Egypt" />
+            </label>
+            <label>
+              <span>Timezone</span>
+              <input type="text" name="timezone" placeholder="GMT +2" />
+            </label>
+            <label>
+              <span>Portfolio / company focus</span>
+              <input type="text" name="portfolio_focus" placeholder="SaaS websites, dashboards, remote teams" />
+            </label>
+            <label class="full-span">
+              <span>Skills</span>
+              <input type="text" name="skills" placeholder="React, Next.js, Node.js" />
+            </label>
+            <button type="submit" class="primary-button full-span">Create Account</button>
+          </form>
+
+          <div class="auth-status" id="authStatus" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script src="auth-pages.js"></script>
+  </body>
+</html>

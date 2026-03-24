@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebDev Freelance Hub</title>
+    <meta
+      name="description"
+      content="A full-stack MVP freelance platform built only for web developers."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="wave-canvas" aria-hidden="true"></canvas>
+    <div class="aurora aurora-one" aria-hidden="true"></div>
+    <div class="aurora aurora-two" aria-hidden="true"></div>
+    <div class="noise" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a href="#home" class="brand-mark">
+        <span class="brand-dot"></span>
+        <span>
+          <strong>WebDev</strong>
+          <small>Freelance Hub</small>
+        </span>
+      </a>
+
+      <nav class="topnav" aria-label="Primary navigation">
+        <a href="#developers">Developers</a>
+        <a href="#projects">Projects</a>
+        <a href="#services">Services</a>
+        <a href="#auth">Accounts</a>
+      </nav>
+
+      <div class="topbar-actions" id="authControls">
+        <div class="session-chip hidden" id="sessionChip">Guest mode</div>
+        <a href="login.html" class="button button-secondary topbar-button" id="loginLink">Login</a>
+        <a href="signup.html" class="button button-primary topbar-button" id="signupLink">Create Account</a>
+        <button type="button" class="button button-secondary topbar-button hidden" id="logoutButton">Logout</button>
+        <a href="#projects" class="button button-secondary topbar-button">Hire Talent</a>
+      </div>
+    </header>
+
+    <main class="site-shell" id="home">
+      <section class="hero-shell">
+        <div class="page-shell">
+          <section class="hero-copy">
+            <p class="eyebrow">Global freelance network built only for web developers</p>
+            <h1>THE FREELANCE MARKETPLACE FOR PEOPLE WHO BUILD THE WEB</h1>
+            <p class="intro">
+              This is now a real platform foundation, not just a visual concept. Web
+              developers can join the network, publish services, and browse open
+              projects. Teams can explore talent, post opportunities, and reach the
+              right people faster.
+            </p>
+
+            <div class="audience-pills" aria-label="Core platform focus">
+              <span class="pill">Frontend</span>
+              <span class="pill">Backend</span>
+              <span class="pill">Full-Stack</span>
+              <span class="pill">Remote Teams</span>
+            </div>
+
+            <div class="actions">
+              <a href="#developers" class="button button-primary">Explore Developers</a>
+              <a href="signup.html" class="button button-secondary">Create Your Account</a>
+            </div>
+
+            <div class="hero-metrics" id="overviewStats" aria-live="polite">
+              <article class="metric-card">
+                <span class="metric-value">...</span>
+                <span class="metric-label">Loading platform stats</span>
+              </article>
+              <article class="metric-card">
+                <span class="metric-value">...</span>
+                <span class="metric-label">Loading platform stats</span>
+              </article>
+              <article class="metric-card">
+                <span class="metric-value">...</span>
+                <span class="metric-label">Loading platform stats</span>
+              </article>
+              <article class="metric-card">
+                <span class="metric-value">...</span>
+                <span class="metric-label">Loading platform stats</span>
+              </article>
+            </div>
+
+            <div class="feature-row">
+              <article class="feature-card">
+                <span class="feature-label">Developers</span>
+                <strong>Create a profile that sells your expertise</strong>
+                <p>Show your stack, rate, availability, portfolio focus, and the kind of work you want.</p>
+              </article>
+              <article class="feature-card">
+                <span class="feature-label">Teams</span>
+                <strong>Post real web projects and meet relevant talent</strong>
+                <p>Keep discovery focused on people who actually design, ship, and scale web products.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="experience">
+            <div class="scene-card">
+              <div class="scene-reflection" aria-hidden="true"></div>
+              <div class="status-pill">Live Full-Stack MVP</div>
+
+              <div class="robot-stage" id="robot">
+                <div class="robot-shadow" aria-hidden="true"></div>
+                <div class="robot-float">
+                  <div class="robot" id="robotModel" aria-label="Interactive robot companion">
+                    <div class="robot-antenna robot-antenna-left" aria-hidden="true">
+                      <span class="antenna-tip"></span>
+                    </div>
+                    <div class="robot-antenna robot-antenna-right" aria-hidden="true">
+                      <span class="antenna-tip"></span>
+                    </div>
+
+                    <div class="robot-head" id="robotHead">
+                      <div class="head-side head-side-left" aria-hidden="true"></div>
+                      <div class="head-side head-side-right" aria-hidden="true"></div>
+                      <div class="head-shell">
+                        <div class="head-highlight"></div>
+                        <div class="face-panel">
+                          <div class="eyes">
+                            <div class="eye-socket">
+                              <div class="eye">
+                                <span class="pupil"></span>
+                                <span class="eye-glow"></span>
+                              </div>
+                            </div>
+                            <div class="eye-socket">
+                              <div class="eye">
+                                <span class="pupil"></span>
+                                <span class="eye-glow"></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="mouth-slot" aria-hidden="true"></div>
+                        </div>
+                        <div class="head-chin" aria-hidden="true"></div>
+                      </div>
+                    </div>
+
+                    <div class="robot-neck" aria-hidden="true">
+                      <span class="neck-cap neck-cap-top"></span>
+                      <span class="neck-spring"></span>
+                      <span class="neck-cap neck-cap-bottom"></span>
+                    </div>
+
+                    <div class="robot-body">
+                      <div class="body-shell">
+                        <div class="body-highlight"></div>
+                        <div class="body-door"></div>
+                        <div class="body-slot body-slot-top"></div>
+                        <div class="body-slot body-slot-bottom"></div>
+                      </div>
+                    </div>
+
+                    <div class="robot-arm robot-arm-left" aria-hidden="true">
+                      <span class="shoulder-joint"></span>
+                      <span class="arm-upper"></span>
+                      <span class="arm-elbow"></span>
+                      <span class="arm-lower"></span>
+                      <span class="claw claw-left"></span>
+                    </div>
+                    <div class="robot-arm robot-arm-right" aria-hidden="true">
+                      <span class="shoulder-joint"></span>
+                      <span class="arm-upper"></span>
+                      <span class="arm-elbow"></span>
+                      <span class="arm-lower"></span>
+                      <span class="claw claw-right"></span>
+                    </div>
+
+                    <div class="robot-hips" aria-hidden="true">
+                      <span class="hip-joint hip-joint-left"></span>
+                      <span class="hip-joint hip-joint-right"></span>
+                    </div>
+
+                    <div class="robot-leg robot-leg-left" aria-hidden="true">
+                      <span class="leg-upper"></span>
+                      <span class="knee-joint"></span>
+                      <span class="leg-lower"></span>
+                      <span class="robot-foot"></span>
+                    </div>
+                    <div class="robot-leg robot-leg-right" aria-hidden="true">
+                      <span class="leg-upper"></span>
+                      <span class="knee-joint"></span>
+                      <span class="leg-lower"></span>
+                      <span class="robot-foot"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="scene-footer">
+                <div>
+                  <span class="footer-label">Robot</span>
+                  <strong>Still tracks the mouse with smooth 3D motion</strong>
+                </div>
+                <div>
+                  <span class="footer-label">Platform</span>
+                  <strong>Now connected to live API data and real submission forms</strong>
+                </div>
+              </div>
+
+              <div class="activity-panel">
+                <div class="activity-header">
+                  <span class="section-kicker">Recent platform activity</span>
+                  <strong>Latest network momentum</strong>
+                </div>
+                <div class="activity-feed" id="activityFeed" aria-live="polite">
+                  <div class="activity-item">Loading activity feed...</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="market-shell">
+        <div class="section-header">
+          <span class="section-kicker">Marketplace</span>
+          <h2>Browse talent, jobs, and services inside one focused product.</h2>
+          <p>
+            The backend now powers the frontend with real data endpoints for developers,
+            projects, services, summary stats, and inbound messages.
+          </p>
+        </div>
+
+        <div class="market-grid">
+          <section class="section-card" id="developers">
+            <div class="card-header">
+              <div>
+                <span class="feature-label">Developers</span>
+                <h3>Developer Explorer</h3>
+              </div>
+              <p>Filter the network by skills, availability, and keywords.</p>
+            </div>
+
+            <form class="filter-bar" id="developerFilters">
+              <label>
+                <span>Search</span>
+                <input type="search" name="q" placeholder="React, Node, motion, API..." />
+              </label>
+              <label>
+                <span>Skill</span>
+                <select name="skill" id="skillFilter">
+                  <option value="">All skills</option>
+                </select>
+              </label>
+              <label>
+                <span>Availability</span>
+                <select name="availability">
+                  <option value="">Any status</option>
+                  <option value="available">Available</option>
+                  <option value="next">Next sprint</option>
+                  <option value="week">This week</option>
+                </select>
+              </label>
+              <div class="filter-actions">
+                <button type="submit" class="button button-primary">Apply Filters</button>
+                <button type="button" class="button button-secondary" id="resetFilters">Reset</button>
+              </div>
+            </form>
+
+            <div class="listing-grid" id="developersList" aria-live="polite"></div>
+          </section>
+
+          <section class="section-card" id="projects">
+            <div class="card-header">
+              <div>
+                <span class="feature-label">Projects</span>
+                <h3>Open Web Opportunities</h3>
+              </div>
+              <p>Projects posted through the live backend and ready for developers to review.</p>
+            </div>
+
+            <div class="stacked-list" id="projectsList" aria-live="polite"></div>
+          </section>
+        </div>
+
+        <section class="section-card" id="services">
+          <div class="card-header">
+            <div>
+              <span class="feature-label">Services</span>
+              <h3>Packaged Offers From The Network</h3>
+            </div>
+            <p>Developers can publish clear, productized services clients understand instantly.</p>
+          </div>
+
+          <div class="services-grid" id="servicesList" aria-live="polite"></div>
+        </section>
+      </section>
+
+      <section class="launch-shell" id="launch">
+        <div class="section-header">
+          <span class="section-kicker">Real auth flow</span>
+          <h2>Sign up on a separate page, verify your email, then log in to enter the platform.</h2>
+          <p>
+            The project is now wired for Supabase authentication. We split the auth flow
+            into dedicated pages so the experience feels like a real product instead of an
+            inline demo form.
+          </p>
+        </div>
+
+        <div class="auth-grid">
+          <section class="form-card auth-card">
+            <div class="card-header">
+              <div>
+                <span class="feature-label">Step 1</span>
+                <h3>Open the dedicated signup page</h3>
+              </div>
+              <p>Users create their account on a standalone page built only for onboarding.</p>
+            </div>
+            <p class="form-gate-note">This page collects full onboarding details and sends the signup request to Supabase.</p>
+            <a href="signup.html" class="button button-primary full-width">Go To Signup</a>
+          </section>
+
+          <section class="form-card auth-card">
+            <div class="card-header">
+              <div>
+                <span class="feature-label">Step 2</span>
+                <h3>Verify your email and continue to login</h3>
+              </div>
+              <p>After signup, the user is redirected to the login page and can verify the email from Supabase.</p>
+            </div>
+            <p class="form-gate-note">Login is also handled on its own page and uses the live Supabase session directly.</p>
+            <a href="login.html" class="button button-secondary full-width">Go To Login</a>
+          </section>
+
+          <section class="form-card auth-card auth-summary-card">
+            <div class="card-header">
+              <div>
+                <span class="feature-label">Database</span>
+                <h3>Supabase-powered auth foundation</h3>
+              </div>
+            </div>
+
+            <div class="account-summary" id="accountSummary">
+              <strong>Connected flow</strong>
+              <p>Auth is intended to run through Supabase email/password with email confirmation and dedicated auth pages.</p>
+              <p>Marketplace tables can be created through the included SQL schema file, then this homepage will read real public data from Supabase.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <div class="status-toast" id="statusToast" role="status" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

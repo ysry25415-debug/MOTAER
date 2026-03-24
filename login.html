@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | WebDev Freelance Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="auth-pages.css" />
+  </head>
+  <body data-page="login">
+    <div class="auth-background auth-glow-one" aria-hidden="true"></div>
+    <div class="auth-background auth-glow-two" aria-hidden="true"></div>
+
+    <header class="auth-topbar">
+      <a href="index.html" class="auth-brand">
+        <span class="brand-dot"></span>
+        <span>
+          <strong>WebDev</strong>
+          <small>Freelance Hub</small>
+        </span>
+      </a>
+      <a href="signup.html" class="ghost-link">Need a new account?</a>
+    </header>
+
+    <main class="auth-shell">
+      <section class="auth-copy">
+        <span class="eyebrow">Login page</span>
+        <h1>Continue after email verification.</h1>
+        <p>
+          This page is the second step of the real auth flow. After signup, the user is
+          redirected here, verifies the email, then logs in through Supabase.
+        </p>
+
+        <div class="copy-card">
+          <strong>Important</strong>
+          <p>Add your local URLs to Supabase Redirect URLs so email verification lands here correctly.</p>
+          <p>Use this page for login only, and use the button below if you need to resend the confirmation email.</p>
+        </div>
+      </section>
+
+      <section class="auth-panel">
+        <div class="panel-card">
+          <div class="panel-head">
+            <span class="eyebrow">Login form</span>
+            <h2>Sign in</h2>
+          </div>
+
+          <form id="loginForm" class="auth-form">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" placeholder="you@example.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" placeholder="Your password" required />
+            </label>
+            <button type="submit" class="primary-button full-span">Login</button>
+          </form>
+
+          <div class="auth-divider"></div>
+
+          <form id="resendForm" class="auth-form compact-form">
+            <label>
+              <span>Resend verification email</span>
+              <input type="email" name="email" placeholder="you@example.com" required />
+            </label>
+            <button type="submit" class="secondary-button full-span">Resend Email</button>
+          </form>
+
+          <div class="auth-status" id="authStatus" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script src="auth-pages.js"></script>
+  </body>
+</html>

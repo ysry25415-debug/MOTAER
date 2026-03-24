@@ -1,0 +1,13 @@
+{
+  "name": "webdev-freelance-hub",
+  "version": "1.0.0",
+  "description": "Full-stack MVP for a web-developers-only freelance platform.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
