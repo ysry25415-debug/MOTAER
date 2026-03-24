@@ -8,7 +8,7 @@ function setStatus(message, type = "") {
 }
 
 function getRedirectUrl() {
-  return `${window.location.origin}/login.html?confirmed=1`;
+  return `${window.location.origin}/index.html?emailConfirmed=1`;
 }
 
 function redirectToHome(delay = 0) {
@@ -40,19 +40,11 @@ function readQueryMessage() {
   const email = params.get("email");
 
   if (params.get("checkEmail") === "1") {
-    setStatus(`Account created. Check ${email || "your email"} for the verification link, then log in here.`, "success");
-    const resendEmailField = document.querySelector('#resendForm input[name="email"]');
+    setStatus(`Account created successfully. ${email || "Your email"} can now use this login page.`, "success");
     const loginEmailField = document.querySelector('#loginForm input[name="email"]');
-    if (resendEmailField && email) {
-      resendEmailField.value = email;
-    }
     if (loginEmailField && email) {
       loginEmailField.value = email;
     }
-  }
-
-  if (params.get("confirmed") === "1") {
-    setStatus("Your email was confirmed. You can log in now, or you may already be signed in automatically.", "success");
   }
 }
 
@@ -74,7 +66,7 @@ function bindSignupPage() {
     const portfolioFocus = formData.get("portfolio_focus").toString().trim();
     const skills = parseSkills(formData.get("skills").toString());
 
-    const { error } = await supabase.auth.signUp({
+    const payload = {
       email,
       password,
       options: {
@@ -89,23 +81,39 @@ function bindSignupPage() {
           skills,
         },
       },
-    });
+    };
 
-    if (error) {
-      setStatus(error.message, "error");
-      return;
+    try {
+      let result = await supabase.auth.signUp(payload);
+
+      // Fallback for preview domains if redirect URL is not allow-listed in Supabase.
+      if (result.error && /redirect|not allowed|invalid/i.test(result.error.message)) {
+        result = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: payload.options.data,
+          },
+        });
+      }
+
+      if (result.error) {
+        setStatus(result.error.message, "error");
+        return;
+      }
+
+      setStatus("Account created. Redirecting to login...", "success");
+      window.setTimeout(() => {
+        window.location.href = `login.html?checkEmail=1&email=${encodeURIComponent(email)}`;
+      }, 900);
+    } catch (error) {
+      setStatus(error.message || "Signup failed. Please try again.", "error");
     }
-
-    setStatus("Account created. Redirecting you to login so you can verify your email.", "success");
-    window.setTimeout(() => {
-      window.location.href = `login.html?checkEmail=1&email=${encodeURIComponent(email)}`;
-    }, 1000);
   });
 }
 
 function bindLoginPage() {
   const loginForm = document.getElementById("loginForm");
-  const resendForm = document.getElementById("resendForm");
 
   loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -115,43 +123,22 @@ function bindLoginPage() {
     const email = formData.get("email").toString().trim();
     const password = formData.get("password").toString();
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      setStatus(error.message, "error");
-      const resendEmailField = resendForm.querySelector('input[name="email"]');
-      resendEmailField.value = email;
-      return;
+      if (error) {
+        setStatus(error.message, "error");
+        return;
+      }
+
+      setStatus("Login successful. Redirecting to the platform...", "success");
+      redirectToHome(900);
+    } catch (error) {
+      setStatus(error.message || "Login failed. Please try again.", "error");
     }
-
-    setStatus("Login successful. Redirecting to the platform...", "success");
-    redirectToHome(900);
-  });
-
-  resendForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    setStatus("Sending verification email again...", "");
-
-    const formData = new FormData(resendForm);
-    const email = formData.get("email").toString().trim();
-
-    const { error } = await supabase.auth.resend({
-      type: "signup",
-      email,
-      options: {
-        emailRedirectTo: getRedirectUrl(),
-      },
-    });
-
-    if (error) {
-      setStatus(error.message, "error");
-      return;
-    }
-
-    setStatus("Verification email sent again. Check your inbox.", "success");
   });
 }
 

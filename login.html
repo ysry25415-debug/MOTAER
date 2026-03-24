@@ -30,16 +30,16 @@
     <main class="auth-shell">
       <section class="auth-copy">
         <span class="eyebrow">Login page</span>
-        <h1>Continue after email verification.</h1>
+        <h1>Login directly to your account.</h1>
         <p>
-          This page is the second step of the real auth flow. After signup, the user is
-          redirected here, verifies the email, then logs in through Supabase.
+          This page is only for signing in. Verification is handled at signup/email
+          level, not through extra actions on this login screen.
         </p>
 
         <div class="copy-card">
           <strong>Important</strong>
-          <p>Add your local URLs to Supabase Redirect URLs so email verification lands here correctly.</p>
-          <p>Use this page for login only, and use the button below if you need to resend the confirmation email.</p>
+          <p>Use this page for login only.</p>
+          <p>If email confirmation is enabled in Supabase, users confirm from inbox then log in here normally.</p>
         </div>
       </section>
 
@@ -60,16 +60,6 @@
               <input type="password" name="password" placeholder="Your password" required />
             </label>
             <button type="submit" class="primary-button full-span">Login</button>
-          </form>
-
-          <div class="auth-divider"></div>
-
-          <form id="resendForm" class="auth-form compact-form">
-            <label>
-              <span>Resend verification email</span>
-              <input type="email" name="email" placeholder="you@example.com" required />
-            </label>
-            <button type="submit" class="secondary-button full-span">Resend Email</button>
           </form>
 
           <div class="auth-status" id="authStatus" aria-live="polite"></div>
