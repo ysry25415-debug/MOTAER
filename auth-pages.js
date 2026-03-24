@@ -156,12 +156,6 @@ async function supabaseRest(path, { method = "GET", body, accessToken } = {}) {
   return data;
 }
 
-async function signOutIfNeeded() {
-  if (supabase && supabase.auth) {
-    await supabase.auth.signOut();
-  }
-}
-
 async function handleExistingSession() {
   if (page !== "login" || !(supabase && supabase.auth)) {
     return;
@@ -193,11 +187,16 @@ function readQueryMessage() {
   const email = params.get("email");
 
   if (params.get("emailVerified") === "1") {
-    setStatus("Email verified successfully. Please login with your email and password.", "success");
+    setStatus("Email verified successfully. Redirecting to homepage...", "success");
   }
 
   if (params.get("checkEmail") === "1") {
-    setStatus(`Account created. Check inbox for ${email || "your email"} to verify, then login.`, "success");
+    const requiresConfirmation = params.get("confirmRequired") === "1";
+    if (requiresConfirmation) {
+      setStatus(`Account created. Verify ${email || "your email"} first, then login.`, "success");
+    } else {
+      setStatus("Account created. Please login to continue.", "success");
+    }
     const loginEmailField = document.querySelector('#loginForm input[name="email"]');
     if (loginEmailField && email) {
       loginEmailField.value = email;
@@ -229,15 +228,33 @@ async function handleAuthCallbackOnLogin() {
     return;
   }
 
-  // Keep verification at signup stage only: after confirmation, require manual login.
+  // If Supabase returns tokens in URL hash, finalize session and move to home.
   if (callbackType === "signup" || hasAccessToken) {
-    await signOutIfNeeded();
-    setStatus("Email verified successfully. Please login now.", "success");
+    const accessToken = hashParams.get("access_token");
+    const refreshToken = hashParams.get("refresh_token");
+
+    if (supabase && supabase.auth && accessToken && refreshToken) {
+      await supabase.auth.setSession({
+        access_token: accessToken,
+        refresh_token: refreshToken,
+      });
+    }
+
     window.history.replaceState(
       {},
       document.title,
       buildPageUrl(LOGIN_PAGE, { emailVerified: "1" }).toString(),
     );
+
+    if (supabase && supabase.auth) {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        redirectToHome(250);
+      }
+    }
   }
 }
 
@@ -355,7 +372,7 @@ function bindSignupPage() {
     const skills = parseSkills(getFieldValue(formData, "skills"));
 
     try {
-      const result = await performSignup(email, password, {
+      await performSignup(email, password, {
         full_name: fullName,
         role,
         title,
@@ -365,17 +382,38 @@ function bindSignupPage() {
         skills,
       });
 
-      if (result && result.session) {
-        await signOutIfNeeded();
-      }
+      setStatus("Account created. Logging you in...", "");
 
-      setStatus("Account created. Please verify your email, then login.", "success");
-      window.setTimeout(() => {
-        window.location.href = buildPageUrl(LOGIN_PAGE, {
-          checkEmail: "1",
-          email,
-        }).toString();
-      }, 700);
+      try {
+        await performLogin(email, password);
+        setStatus("Account created successfully. Redirecting to homepage...", "success");
+        redirectToHome(320);
+        return;
+      } catch (loginError) {
+        const loginMessage = toErrorMessage(loginError);
+        const needsConfirmation = isEmailNotConfirmedError(loginMessage);
+
+        if (needsConfirmation) {
+          setStatus("Account created. Verify your email first, then login.", "success");
+          window.setTimeout(() => {
+            window.location.href = buildPageUrl(LOGIN_PAGE, {
+              checkEmail: "1",
+              confirmRequired: "1",
+              email,
+            }).toString();
+          }, 700);
+          return;
+        }
+
+        setStatus("Account created, but auto-login failed. Redirecting to login...", "success");
+        window.setTimeout(() => {
+          window.location.href = buildPageUrl(LOGIN_PAGE, {
+            checkEmail: "1",
+            email,
+          }).toString();
+        }, 700);
+        return;
+      }
     } catch (error) {
       setStatus(toErrorMessage(error), "error");
     } finally {
